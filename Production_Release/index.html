@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dating App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .profile {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .like {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .pass {
+            background-color: #f44336;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dating App</h1>
+    <div class="profile" id="profile">
+        <p>Loading profile...</p>
+    </div>
+    <div class="buttons">
+        <button class="pass" onclick="nextProfile()">Pass</button>
+        <button class="like" onclick="likeProfile()">Like</button>
+    </div>
+
+    <script>
+        async function loadProfile() {
+            try {
+                const response = await fetch('/profile');
+                const profile = await response.json();
+                displayProfile(profile);
+            } catch (error) {
+                document.getElementById('profile').innerHTML = '<p>Error loading profile</p>';
+            }
+        }
+
+        function displayProfile(profile) {
+            document.getElementById('profile').innerHTML = `
+                <h2>${profile.name}</h2>
+                <p>Age: ${profile.age}</p>
+                <p>Gender: ${profile.gender}</p>
+                <p>Bio: ${profile.bio}</p>
+                <p>Interests: ${profile.interests.join(', ')}</p>
+            `;
+        }
+
+        function nextProfile() {
+            loadProfile();
+        }
+
+        function likeProfile() {
+            alert('Liked!'); // Placeholder for like functionality
+            loadProfile();
+        }
+
+        // Load first profile on page load
+        loadProfile();
+    </script>
+</body>
+</html>
